@@ -6,12 +6,29 @@
 $(document).ready(function() {
   function updateDateTime() {
     var currentDay = $('#currentDay');
-    var now = dayjs().format('dddd, MMMM D, YYYY hh:mm:ss A');
+    var now = dayjs().format('dddd, MMMM D, YYYY HH:mm:ss');
 
     currentDay.text(now);
   }
 
+  function getHour() {
+    var currentHour = dayjs().hour();
+
+    $('.time-block').each(function() {
+      var blockHour = parseInt($(this).attr('id').split('-')[1]);
+
+      if (blockHour < currentHour) {
+        $(this).addClass('past').removeClass('present future');
+      } else if (blockHour === currentHour) {
+        $(this).addClass('present').removeClass('past future');
+      } else {
+        $(this).addClass('future').removeClass('past present');
+      }
+    });
+  }
+
   updateDateTime();
+  getHour();
 
   setInterval(updateDateTime, 1000);
 });
