@@ -1,8 +1,3 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-
-
 $(document).ready(function() {
 
   function updateDateTime() {
@@ -12,7 +7,6 @@ $(document).ready(function() {
     currentDay.text(now);
   }
 
-//________________________________________
   function getHour() {
     var currentHour = dayjs().hour();
 
@@ -30,7 +24,6 @@ $(document).ready(function() {
     });
   }
 
-//________________________________________
   $(document).on('click', '.fa-save', function() {
     console.log('Save Clicked!');
 
@@ -91,7 +84,7 @@ $(document).ready(function() {
 
 // WHEN I scroll down
 // THEN I am presented with time blocks for standard business hours of 9am to 5pm
-//I believe this is already done with the HTML I added
+//  I believe this is already done with the HTML I added
 //DONE_____________________________________________________________
 
 // WHEN I view the time blocks for that day
