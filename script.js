@@ -1,5 +1,12 @@
+//this inital function is for the majority of the JavaScript in this project
+//it will run once the html is fully loaded
+//used jQuery shortcut for this method
+
 $(document).ready(function() {
 
+  //this function will get the current time from dayjs,
+  //replace the value of the variable currentDay with it,
+  //which was defined using a jQuery shortcut to attach it to HTML
   function updateDateTime() {
     var currentDay = $('#currentDay');
     var now = dayjs().format('dddd, MMMM D, YYYY hh:mm:ss A');
@@ -7,12 +14,21 @@ $(document).ready(function() {
     currentDay.text(now);
   }
 
+  //this function will get the current hour and adjust the background accordingly
   function getHour() {
     var currentHour = dayjs().hour();
 
+    //jQuery shortcut to get everything with .time-block and do this function to each of them
     $('.time-block').each(function() {
+      //jQuery shortcut to get the ID attribute of element selected
+      //this refers to the element in the each() loop
       var blockId = $(this).attr('id');
+      //the id that is being take is 'hour-#'
+      //.split() method will separate the value of blockId, using the '-' as the separation point,
+      //then it will take the element at index 1 of the array,
+      //and turns it into an integer using parseInt
       var blockHour = parseInt(blockId.split('-')[1]);
+      //ex. 'hour-9' turns into ['hour','9'] and we are left with '9'
 
       if (blockHour < currentHour) {
         $(this).addClass('past').removeClass('present future');
