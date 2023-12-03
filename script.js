@@ -21,7 +21,7 @@ $(document).ready(function() {
     //jQuery shortcut to get everything with .time-block and do this function to each of them
     $('.time-block').each(function() {
       //jQuery shortcut to get the ID attribute of element selected
-      //this refers to the element in the each() loop
+      //this refers to the current element in the each() loop
       var blockId = $(this).attr('id');
       //the id that is being take is 'hour-#'
       //.split() method will separate the value of blockId, using the '-' as the separation point,
@@ -30,7 +30,10 @@ $(document).ready(function() {
       var blockHour = parseInt(blockId.split('-')[1]);
       //ex. 'hour-9' turns into ['hour','9'] and we are left with '9'
 
+      //conditional statement to change the background color of the textInput depending on the hour
+      //the currentHour was defined at the beginning of the getHour function
       if (blockHour < currentHour) {
+        //this still refers to the current element in the each() loop
         $(this).addClass('past').removeClass('present future');
       } else if (blockHour === currentHour) {
         $(this).addClass('present').removeClass('past future');
@@ -40,52 +43,77 @@ $(document).ready(function() {
     });
   }
 
+  //jQuery shortcut for event listener
+  //targeting elements with a 'fa-save' class
+  //when those are clicked, the function below will run
   $(document).on('click', '.fa-save', function() {
+    //test for myself in the console
     console.log('Save Clicked!');
 
+    //this will get the closest parent with class 'time-block'
+    //and get the data labeled as row-id inside that element with prev class
     var rowId = $(this).closest('.time-block').data('row-id');
     var textArea = $(this).closest('.time-block').find('.description');
  
+    //the value of textArea will become the value of textValue
     var textValue = textArea.val();
 
+    //test for correct pull
     console.log('textValue', textValue);
 
+    //save that value to localStorage
     localStorage.setItem('savedText_' + rowId, textValue);
   });
 
+  //this function will keep info from localStorage written to page
   function savedEvent() {
+    //this will run for each element that has .time-block
     $('.time-block').each(function() {
+      //get data from row-id in the current element from .time-block
       var rowId = $(this).data('row-id');
+      //get data from localStorage
       var savedText = localStorage.getItem('savedText_' + rowId);
       
+      //if there is actual data as the value, it will replace the value of .description in that specific element and replace it
       if (savedText !== null && savedText !== undefined && savedText.trim() !== '') {
         $(this).find('.description').val(savedText);
       }
     });
   }
 
-
+  //runs the functions
   updateDateTime();
   getHour();
-
   savedEvent();
 
+  //clock moves in one second intervals
   setInterval(updateDateTime, 1000);
 
 });
 
+//this function is the clear localStorage button
 $(document).ready(function() {
+  //create a variable using jQuery shortcut
   var clearButton = $('<button>')
+    //add class to that button
     .addClass('btn btn-clear')
+    //add text to that button
     .text('Clear Events');
 
+    //jQuery shortcut for click event
+    //when the clearButton element is clicked, function will run
     clearButton.on('click', function() {
+      //will clear the localStorage
       localStorage.clear();
+      //test for myself
       console.log('clearButton clicked');
 
+      //will also 'clear' the value of the description,
+      //by replacing value with empty string
       $('.description').val('');
     });
 
+    //jQuery shortcut to select the header from HTML and add the button to the end of that element
     $('header').append(clearButton);
 });
 
